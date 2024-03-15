@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Block</title>
+    <%- include('links') %>
+    
+    <link rel="stylesheet" type="text/css" href="/static/css/snake.css">
+    
+</head>
+<body>
+    <%- include('header') %>
+    <section class="section">
+        <h1>SNAKE GAME</h1>
+        <div id="buttons">
+            <button id="start" onclick="SetBoard()">START</button>
+        </div>
+        <hr>
+        <div id="board">
+            <p id="message">Game Over</p>
+        </div>
+    </section>
+
+    <%- include('footer') %>
+    
+</body>
+    <script src="/static/js/snake.js"></script>
+</html>
+
+

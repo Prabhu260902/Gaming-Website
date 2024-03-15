@@ -1,0 +1,110 @@
+.chat-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 40px;
+    cursor: pointer;
+}
+
+.chat-img{
+    width:80px;
+    height: 80px;
+}
+
+.chat-window {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+}
+
+.chat-header {
+    background-color: #ddd;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.chat-header h1 {
+    color: blue;
+    margin: 0;
+}
+
+#chat-messages {
+    display: flex;
+    height: 250px;
+    overflow-y: scroll;
+    padding: 10px;
+    flex-direction: column;
+}
+
+.chat-input {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+#room {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+#user-msg {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+.chat-input button {
+    padding: 8px 15px;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 100px;
+    background-color: rgb(2,6, 23,1);
+}
+
+.Join-Room button {
+    
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 70px;
+    background-color: rgb(145, 21, 118);
+}
+
+#connected-msg{
+    display: flex;
+    justify-content: center;
+    color: black;
+}
+
+
+.message{
+    margin-top: 2px;
+    margin-bottom: 2px;
+    color: black;
+}
+
+.Own-message{
+    margin-left: auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    color: black;
+}
+
+.Join-Room{
+    display: flex;
+    flex-direction: row;
+}

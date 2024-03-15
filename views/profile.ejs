@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOJO</title>
+    <%- include('links') %>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/profile.css">
+</head>
+
+
+<body>
+    <%- include('header') %>
+
+    <section class="section">
+        <canvas id="myChart"></canvas>
+        <div id="closeButton">&times;</div>
+        
+        <div class="welcome"> 
+            <h1>Hi, <%= user.username.toUpperCase() %> </h1>
+            <h1>WELCOME To YOUR PROFILE</h1>
+            <a href="/logout"><button class="Sign-in" type="submit">SIGNOUT</button></a>
+        </div>
+        <div class="score">
+            <div class="maincontainer">
+                <div class="thecard">
+                <div class="thefront">
+                    <img class="cardImg" src="static/images/sudoku.png">
+                    <h1>SUDOKU</h1>
+                </div>
+                <div class="theback">
+                    <div class="data">
+                        <% Data = JSON.parse(data) %>
+                        <h1>Best Times</h1>
+                        <table>
+                            <% var level = ['easy', 'medium', 'hard']; %>
+                            <tr>
+                                <th>Level</th>
+                                <th>Time</th>
+                            </tr>
+                            <% level.forEach(function(key){ %>
+                                <tr>
+                                    <td><%= key.charAt(0).toUpperCase() + key.slice(1) %></td>
+                                    <td><%= Data['sudokuTime'][key] == 3600000 ? 'NULL' : Data['sudokuTime'][key] %></td>
+                                </tr>
+                            <% }); %>
+                            
+                        </table>
+                        
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="maincontainer">
+                <div class="thecard">
+                <div class="thefront">
+                    <img class="cardImg" src="static/images/block.png">
+                    <h1>BLOCK PUZZLE</h1>
+                </div>
+                <div class="theback">
+                    <div class="data">
+                        <% Data = JSON.parse(data) %>
+                        <h1>Best Score</h1>
+                        <h4><%= Data['BlockScore'] %></h4>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+
+            <div class="maincontainer">
+                <div class="thecard">
+                <div class="thefront">
+                    <img class="cardImg" src="static/images/tictactoe.png">
+                    <h1>TIC-TAC-TOE</h1>
+                </div>
+                <div class="theback">
+                    <div class="data">
+                        <% Data = JSON.parse(data) %>
+                        <h1>Stats</h1>
+                        
+                        <table>
+                            <% var level = ['played','win', 'draw']; %>
+                            <% level.forEach(function(key){ %>
+                                <tr>
+                                    <th><%= key.charAt(0).toUpperCase() + key.slice(1) %></th>
+                                    <td><%= Data['TicTacToe'][key] %></td>
+                                </tr>
+                            <% }); %>
+                            <tr>
+                                <th>Lose</th>
+                                <td><%= Data['TicTacToe']['played'] - (Data['TicTacToe']['win'] + Data['TicTacToe']['draw']) %></td>
+                            </tr>
+                        </table>
+                        <button id="graphbtn">Visualize Data</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="score">
+            <div class="maincontainer">
+                <div class="thecard">
+                <div class="thefront">
+                    <img class="cardImg" src="static/images/snake.png">
+                    <h1>SNAKE</h1>
+                </div>
+                <div class="theback">
+                    <div class="data">
+                        <% Data = JSON.parse(data) %>
+                        <h1>Best Score</h1>
+                        <h4><%= Data['Snake'] %></h4>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="maincontainer">
+                <div class="thecard">
+                <div class="thefront">
+                    <img class="cardImg" src="static/images/sudoku.png">
+                    <h1>SUDOKU</h1>
+                </div>
+                <div class="theback">
+                    <h1>Back of Card</h1>
+                    <p>Your use of this site is subject to the terms and conditions governing this and all transactions.</p>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="score">
+            <div class="maincontainer">
+                <div class="thecard">
+                <div class="thefront">
+                    <img class="cardImg" src="static/images/snake.png">
+                    <h1>SNAKE</h1>
+                </div>
+                <div class="theback">
+                    <div class="data">
+                        <% Data = JSON.parse(data) %>
+                        <h1>Best Score</h1>
+                        <h4><%= Data['Snake'] %></h4>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="maincontainer">
+                <div class="thecard">
+                <div class="thefront">
+                    <img class="cardImg" src="static/images/sudoku.png">
+                    <h1>SUDOKU</h1>
+                </div>
+                <div class="theback">
+                    <h1>Back of Card</h1>
+                    <p>Your use of this site is subject to the terms and conditions governing this and all transactions.</p>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    
+
+
+    <%- include('footer') %>
+    <script src = 'static/js/profile.js'></script>
+</body>
+</html>
+
+
+
+
+
+   

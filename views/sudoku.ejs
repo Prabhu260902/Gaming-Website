@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('links') %>
+    <link rel="stylesheet" type="text/css" href="/static/css/sudoku.css">
+    
+    <title>Sudoku</title>
+</head>
+<body>
+    <%- include('header') %>
+    <section class="section">
+        
+        <div id="buttons">
+            <button id="start" onclick="SetGame()">START</button> 
+            <div id="GameOver">SOLVED</div>
+        </div>
+        
+        <hr>
+        <div id="board">
+
+        </div>
+        <br>
+        <div id="elements">
+
+        </div>
+    </section>
+
+    <%- include('footer') %>
+    
+</body>
+    <script src="static/js/sudoku.js"></script> 
+</html>
+

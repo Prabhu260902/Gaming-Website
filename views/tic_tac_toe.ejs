@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('links') %>
+    <link rel="stylesheet" href="/static/css/chat.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/tic_tac_toe.css">
+    
+    <title>Sudoku</title>
+</head>
+<body>
+    <%- include('header') %>
+    <section class="section">
+        
+    <h1>TIC TAC TOE</h1>
+    <div class="Join-Room">
+        <input id="room" type="text" placeholder="Enter Room ID">
+        <button id="join" type="text">JOIN</button>
+    </div>
+    <button id="reset" onclick="load()">RESET</button>
+    <hr>
+    <div id="board"></div>
+    <div id="message">DRAW</div>
+
+        <%- include('chat') %>
+    </section>
+
+    <%- include('footer') %>
+    
+    
+</body>
+    <script src = "/socket.io/socket.io.js"></script>
+    <script src="static/js/chat.js"></script>
+    <script src="static/js/tic_tac_toe.js"></script> 
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="static/css/tic_tac_toe.css">
+    <script src="static/js/tic_tac_toe.js"></script>
+    <title>Home</title>
+</head>
+<body>
+    
+</body>
+</html>

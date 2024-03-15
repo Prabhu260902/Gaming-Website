@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Block</title>
+    <%- include('links') %>
+    <link rel="stylesheet" type="text/css" href="/static/css/block.css">
+    
+</head>
+<body>
+    <%- include('header') %>
+    <section class="section">
+        <h1 class="heading">BLOCK GAME</h1>
+        <h3 id="score">Score: 0</h3>
+        <div id="buttons">
+            <button id="start" onclick="SetBoard()">START</button>
+        </div>
+        <hr>
+        <div id="board">
+            
+        </div>
+        <div id="hints"></div>
+        <h1 class="gameOver">Game Over</h1>
+    </section>
+
+    <%- include('footer') %>
+    
+</body>
+    <script src="/static/js/block.js"></script>
+</html>
+
+

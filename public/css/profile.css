@@ -1,0 +1,183 @@
+.welcome{
+    margin-top: 0px;
+    width: 600px;
+}
+
+.score{
+    width: 800px;
+    height: 320px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.maincontainer{
+  width: 250px;
+  height: 320px;
+  background: none;
+
+}
+
+.cardImg{
+  width: 125px;
+  height: 120px;
+  margin: 10px 10px 10px 10px;
+}
+
+/* THE CARD HOLDS THE FRONT AND BACK FACES */
+.thecard{
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  transform-style: preserve-3d;
+  transition: all 1s ease;
+}
+
+/* THE PSUEDO CLASS CONTROLS THE FLIP ON MOUSEOVER AND MOUSEOUT */
+.thecard:hover{
+  transform: rotateY(180deg);
+}
+
+/* THE FRONT FACE OF THE CARD, WHICH SHOWS BY DEFAULT */
+ .thefront{
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  overflow: hidden;
+  background: #ffc728;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* THE BACK FACE OF THE CARD, WHICH SHOWS ON MOUSEOVER */
+.theback{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  overflow: hidden;
+  background: #fafafa;
+  color: #333;
+  text-align: center;
+  transform: rotateY(180deg);
+}
+
+
+/*This block (starts here) is merely styling for the flip card, and is NOT an essential part of the flip code */
+.thefront h1, .theback h1{
+  font-family: 'zilla slab', sans-serif;
+  padding: 0px;
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+}
+
+
+.data{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: -30px;
+}
+
+h4{
+    margin: 0px;
+    padding: 0px;
+}
+
+.thefront p, .theback p{
+  font-family: 'zilla slab', sans-serif;
+  padding: 30px;
+  font-weight: normal;
+  font-size: 12px;
+  text-align: center;
+}
+
+
+table{
+    border-collapse: collapse;
+    width: 90%;
+    border-spacing: 0;
+}
+
+table ,tr , th, td{
+    border: 1px solid black;
+}
+
+#graphbtn{
+  width: 120px;
+  height: 50px;
+  border-radius: 20px;
+  background-color: #000;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.blur {
+  filter: blur(5px);
+}
+
+#myChart{
+  display: none;
+  position: absolute;
+  background-color: whitesmoke;
+  max-width: 600px;
+  max-height: 600px;
+  z-index: 1;
+  top: 100px; /* Adjust as needed */
+  left: 50%; /* Adjust as needed */
+  transform: translateX(-50%);
+  color: white;
+}
+
+#closeButton {
+  display: none;
+  position: absolute;
+  cursor: pointer;
+  color: red;
+  z-index: 9999;
+  font-size: 40px;
+  margin-top: 95px;
+  margin-left: 560px;
+}
+
+
+
+@media (max-width: 800px){
+    .welcome{
+        display: none;
+    }
+    .score{
+        display: flex;
+      width: 100%;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0px;
+    }
+
+    .maincontainer{
+        margin-bottom: 10px;
+    }
+  
+    .header{
+      justify-content: space-between;
+    }
+  }

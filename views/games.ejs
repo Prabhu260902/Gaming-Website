@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOJO</title>
+    <%- include('links') %>
+    </head>
+
+
+<body>
+    <%- include("header") %>
+
+    <section class="section">
+        <div class="all-games">
+            <div class="welcome"> 
+                <h1>Hi, <%= user.username.toUpperCase() %> </h1>
+                <h1>ENJOY YOUR GAMES</h1>
+            </div>
+            <div class="games">
+                <div class="game-name">
+                    <a href="/sudoku"><img class="game-logo" src="/static/images/sudoku.png"></a>
+                    <h3 class="game-title">SUDOKU</h3>
+                </div>
+                <div class="game-name">
+                    <a href="/block"><img class="game-logo" src="/static/images/block.png"></a>
+                    <h3 class="game-title">BLOCK PUZZLE</h3>
+                </div>
+                <div class="game-name">
+                    <a href="/tictactoe"><img class="game-logo" src="/static/images/tictactoe.png"></a>
+                    <h3 class="game-title">TIC-TAC-TOE</h3>
+                </div>
+            </div>
+            <div class="games">
+                <div class="game-name">
+                    <a href="/snake"><img class="game-logo" src="/static/images/snake.png"></a>
+                    <h3 class="game-title">SNAKE</h3>
+                </div>
+                <div class="game-name">
+                    <a href="/chess"><img class="game-logo" src="/static/images/chess.png"></a>
+                    <h3 class="game-title">CHESS</h3>
+                </div>
+            </div>
+        </div>
+        
+          
+    </section>
+
+
+    <%- include('footer') %>
+    
+</body>
+</html>
+
+

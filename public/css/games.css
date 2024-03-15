@@ -1,0 +1,94 @@
+
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  font-size: 20px;
+  flex-direction: column;
+  position: relative
+}
+
+.profile_logo {
+  height: 80px;
+  width: 80px;
+  margin-top: 40px;
+  cursor: pointer;
+}
+
+.dropdown {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  right: 0; 
+  padding: 10px;
+  z-index: 1;
+}
+
+.profile:hover .dropdown {
+  display: flex;
+}
+
+
+.section{
+  justify-content: start;
+}
+
+.all-games{
+  margin-top: 3%;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.welcome{
+  height: 100px;
+  width: 500px;
+  display: flex;
+  margin-top: 5%;
+}
+
+
+.games{
+  display: flex;
+  flex-direction: row;
+}
+
+.game-name{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.game-logo{
+  width: 125px;
+  height: 120px;
+  margin: 10px 10px 10px 10px;
+}
+
+@media (max-width: 500px){
+  .all-games{
+    width: 100%;
+  }
+
+  .welcome{
+    display: none ;
+  }
+
+  .games{
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .header{
+    justify-content: space-between;
+  }
+}

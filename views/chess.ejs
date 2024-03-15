@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('links') %>
+    <link rel="stylesheet" href="/static/css/chat.css">
+    <link rel="stylesheet" href="/static/css/chess.css">
+    
+    <title>Chess</title>
+</head>
+<body>
+    <%- include('header') %>
+    <section class="section">
+        
+        <h1>CHESS GAME</h1>
+        <div class="Join-Room">
+            <input id="room" type="text" placeholder="Enter Room ID">
+            <button id="join" type="text">JOIN</button>
+        </div>
+        <div id="buttons">
+            <button id="start" onclick="SetBoard()">START</button>
+            <button id="reset" onclick="load()">RESET</button>
+        </div>
+        <hr>
+        <div class="full-board">
+
+            <div id = "board">
+                <div id="popup" class="hidden">Check</div>
+                  
+            </div>
+            <h3 id="choice">GOLD TURN</h3>
+        </div>
+
+        <%- include('chat') %>
+    </section>
+
+    <%- include('footer') %>
+    
+    
+</body>
+    <script src = "/socket.io/socket.io.js"></script>
+    <script src="static/js/chat.js"></script>
+    <script src="static/js/chess.js"></script> 
+    
+</html>

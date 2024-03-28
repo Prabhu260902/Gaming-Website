@@ -4,7 +4,7 @@ let kk = 0;
 let pre_move = -1;
 let flag = true;
 let firstStart = false;
-
+var socket = io();
 
 const joinButton = document.getElementById('join');
 const room = document.getElementById('room')
@@ -42,7 +42,6 @@ function SetBoard(){
 SetBoard();
 
 socket.on('nextMove',(cords,cnt)=>{
-    console.log(cords,cnt,pre_move,flag);
     const temp = document.getElementById(cords);
     if(cnt%2 == 0){
         const img = document.createElement('img')
@@ -62,7 +61,6 @@ socket.on('nextMove',(cords,cnt)=>{
 
 function icon(){
     const temp = this.querySelector('img');
-    console.log(flag)
     if(pre_move != CNT && flag){
         if(!temp){
             if(CNT%2 == 0){
@@ -166,38 +164,14 @@ socket.on('wins',(id)=>{
 
 
 function check(){
-    if(array[0][0] != 0 && array[0][0] == array[1][1] && array[1][1] == array[2][2]){
-        // markWinningCells([[0, 0], [1, 1], [2, 2]]);
-        return true;
-    }
-    if(array[0][2] != 0 && array[0][2] == array[1][1] && array[1][1] == array[2][0]){
-        // markWinningCells([[0, 2], [1, 1], [2, 0]]);
-        return true;
-    }
-    if(array[0][0] != 0 && array[0][1] == array[0][0] && array[0][1] == array[0][2]){
-        // markWinningCells([[0, 0], [0, 1], [0, 2]]);
-        return true;
-    }
-    if(array[1][0] != 0 && array[1][1] == array[1][0] && array[1][1] == array[1][2]){
-        // markWinningCells([[1, 0], [1, 1], [1, 2]]);
-        return true;
-    }
-    if(array[2][0] != 0 && array[2][1] == array[2][0] && array[2][1] == array[2][2]){
-        // markWinningCells([[2, 0], [2, 1], [2, 2]]);
-        return true;
-    }
-    if(array[0][0] != 0 && array[0][0] == array[1][0] && array[1][0] == array[2][0]){
-        // markWinningCells([[0, 0], [1, 0], [2, 0]]);
-        return true;
-    }
-    if(array[0][1] != 0 && array[0][1] == array[1][1] && array[1][1] == array[2][1]){
-        // markWinningCells([[0, 1], [1, 1], [2, 1]]);
-        return true;
-    }
-    if(array[0][2] != 0 && array[0][2] == array[1][2] && array[1][2] == array[2][2]){
-        // markWinningCells([[0, 2], [1, 2], [2, 2]]);
-        return true;
-    }
+    if(array[0][0] != 0 && array[0][0] == array[1][1] && array[1][1] == array[2][2]) return true;
+    if(array[0][2] != 0 && array[0][2] == array[1][1] && array[1][1] == array[2][0]) return true;
+    if(array[0][0] != 0 && array[0][1] == array[0][0] && array[0][1] == array[0][2]) return true;
+    if(array[1][0] != 0 && array[1][1] == array[1][0] && array[1][1] == array[1][2]) return true;
+    if(array[2][0] != 0 && array[2][1] == array[2][0] && array[2][1] == array[2][2]) return true;
+    if(array[0][0] != 0 && array[0][0] == array[1][0] && array[1][0] == array[2][0]) return true;
+    if(array[0][1] != 0 && array[0][1] == array[1][1] && array[1][1] == array[2][1]) return true;
+    if(array[0][2] != 0 && array[0][2] == array[1][2] && array[1][2] == array[2][2]) return true;
     return false;
 }
 

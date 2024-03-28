@@ -4,13 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha ./tests/*.spec.js",
     "start": "nodemon server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.536.0",
+    "@aws-sdk/lib-storage": "^3.536.0",
+    "@aws-sdk/s3-request-presigner": "^3.536.0",
+    "aws-sdk": "^2.1580.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.3",
@@ -19,18 +23,25 @@
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-session": "^1.18.0",
+    "firebase": "^10.9.0",
+    "firebase-admin": "^12.0.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
     "mongoose": "^8.2.0",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.12",
     "nodemon": "^3.0.3",
     "socket.io": "^4.7.4",
-    "typescript": "^5.3.3",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.3",
     "uuid": "^9.0.1",
-    "validator": "^13.11.0"
+    "validator": "^13.11.0",
+    "webpack": "^5.91.0"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^9.2.2",
     "tailwindcss": "^3.4.1"
   }
 }

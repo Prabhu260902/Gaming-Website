@@ -1,10 +1,14 @@
 
 // Example data (replace this with your JSON data)
-const createDivButton = document.getElementById("graphbtn");
+const createDivButton = document.querySelector(".graphbtn");
+const chess = document.querySelector(".graphbtnChess");
 const chart = document.getElementById("myChart");
 const clossBtn = document.getElementById('closeButton');
 let myChart = null; 
 clossBtn.addEventListener('click',function(){
+    if (myChart) {
+        myChart.destroy();
+    }
     chart.style.display = 'none';
     clossBtn.style.display = 'none';
     const wrapper = document.querySelector(".section");
@@ -14,19 +18,8 @@ clossBtn.addEventListener('click',function(){
     });
 })
 
-createDivButton.addEventListener("click", function() {
-    // Create a new div element
-    console.log("hi")
-    chart.style.display = 'flex';
-    clossBtn.style.display = 'flex';
-    
-    const wrapper = document.querySelector(".section");
-    const elementsToBlur = wrapper.querySelectorAll("*:not(#myChart):not(#closeButton)");
-    elementsToBlur.forEach(element => {
-        element.classList.toggle("blur");
-    });
 
-    let DATA;
+function fectingData(choice){
     
     fetch('/profile', {
         method: 'POST',
@@ -39,26 +32,40 @@ createDivButton.addEventListener("click", function() {
         return response.json();
     })
     .then(data => {
-        print(data);
+        print(data,choice);
     })
     .catch(error => {
         console.error('Error:', error);
     });
+}
+
+
+createDivButton.addEventListener("click", function() {
+    chart.style.display = 'flex';
+    clossBtn.style.display = 'flex';
     
+    const wrapper = document.querySelector(".section");
+    const elementsToBlur = wrapper.querySelectorAll("*:not(#myChart):not(#closeButton)");
+    elementsToBlur.forEach(element => {
+        element.classList.toggle("blur");
+    });
+
+    fectingData(1);
 });
 
 
-function print(Data){
+function print(Data,choice){
     const Xaxis = [];
     const yaxis = []
-    Object.keys(Data['TicTacToe']).forEach(key=>{
+    let temp;
+    if(choice) temp = 'TicTacToe';
+    else temp = 'Chess';
+    Object.keys(Data[temp]).forEach(key=>{
         const name = key.charAt(0).toUpperCase() + key.slice(1)
         Xaxis.push(name);
-        yaxis.push(Data['TicTacToe'][key]);
+        yaxis.push(Data[temp][key]);
     })
 
-    Xaxis.push('Lose');
-    yaxis.push(Data['TicTacToe']['played'] - (Data['TicTacToe']['win'] + Data['TicTacToe']['draw']))
 
     const bgcolors =  ['rgb(65,105,225,1)',
     'rgb(65,105,225,0.8)','rgb(65,105,225,0.5)']
@@ -94,6 +101,17 @@ function print(Data){
 }
 
 
+chess.addEventListener('click',function(){
+    chart.style.display = 'flex';
+    clossBtn.style.display = 'flex';
+    
+    const wrapper = document.querySelector(".section");
+    const elementsToBlur = wrapper.querySelectorAll("*:not(#myChart):not(#closeButton)");
+    elementsToBlur.forEach(element => {
+        element.classList.toggle("blur");
+    });
 
+    fectingData(0);
+})
 
   

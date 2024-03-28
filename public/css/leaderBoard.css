@@ -1,0 +1,38 @@
+table{
+    border-collapse: collapse;
+    font-size: 25px;
+    width: 550px;
+}
+
+th, td {
+    border: 1px solid white;
+    padding: 8px;
+    align-items: center;
+}
+
+.value{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.heading{
+    font-size: 40px;
+}
+
+
+.img{
+    width: 60px;
+    height: 60px;
+}
+
+.heading{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+
+  

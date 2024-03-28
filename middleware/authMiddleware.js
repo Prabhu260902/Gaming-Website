@@ -2,7 +2,6 @@ const jwtt = require('jsonwebtoken');
 const User = require("../models/user")
 require('dotenv').config();
 
-// console.log(jwt)
 const Code = process.env.SecretCode;
 const requireAuth = (req,res,next) => {
     const token = req.cookies.jwt;

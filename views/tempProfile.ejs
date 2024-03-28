@@ -18,9 +18,8 @@
         <div id="closeButton">&times;</div>
         
         <div class="welcome"> 
-            <h1>Hi, <%= user.username.toUpperCase() %> </h1>
-            <h1>WELCOME To YOUR PROFILE</h1>
-            <a href="/logout"><button class="Sign-in" type="submit">SIGNOUT</button></a>
+            <% Name = JSON.parse(name) %>
+            <h1>WELCOME To <%= Name.username.toUpperCase() %> PROFILE</h1>
         </div>
         <div class="score">
             <div class="maincontainer">
@@ -90,7 +89,6 @@
                                 </tr>
                             <% }); %>
                         </table>
-                        <button class="graphbtn">Visualize Data</button>
                     </div>
                 </div>
                 </div>
@@ -133,7 +131,6 @@
                                 </tr>
                             <% }); %>
                         </table>
-                        <button class="graphbtnChess">Visualize Data</button>
                     </div>
                 </div>
                 </div>

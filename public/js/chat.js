@@ -22,7 +22,7 @@
     });
   });
 
-var socket = io();
+
 
 var button = document.getElementById('send-message');
 var input = document.getElementById('user-msg');
@@ -40,7 +40,6 @@ button.addEventListener('click',function(e){
 
 
 socket.on('message',(msg)=>{
-    console.log(msg);
     const MSG = document.createElement('p');
     MSG.classList.add('message');
     MSG.innerText = msg;

@@ -4,49 +4,6 @@ const http = require('http');
 const server = http.createServer(app);
 require('dotenv').config();
 
-// const nodemailer = require('nodemailer');
-// const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     secure: false,
-//     auth: {
-//         user: process.env.mail,
-//         pass: process.env.password,
-//     }
-// })
-
-// console.log(process.env.mail);
-// console.log(process.env.password);
-
-
-
-// app.get('/test',(req,res)=>{
-//     const mailOptions = {
-//         from: process.env.mail,
-//         to: 'abhisamudrala21@gmail.com',
-//         subject: 'Testing Nodemailer',
-//         text: 'Tinnava'
-//     };
-
-
-//     transporter.sendMail(mailOptions, function(error, info) {
-//         if (error) {
-//             console.error('Error:', error);
-//             if (error.code === 'EAUTH') {
-//               // Handle authentication error
-//               res.status(401).send(error);
-//             } else {
-//               // Handle other errors
-//               res.status(500).send('Failed to send email');
-//             }
-//           } else {
-//             console.log('Email sent:', info.response);
-//             res.render('test',{msg: 'tinnava nanna'});
-//           }
-//     });
-
-    
-// })
-  
 
 const {Server} = require("socket.io");
 const io = new Server(server);
@@ -99,8 +56,13 @@ io.on('connection',(socket)=>{
         }
         roomId = id;
         socket.join(roomId);
+        socket.to(roomId).emit('reset',roomId);
         console.log(`Socket ${socket.id} joined room ${roomId}`);
     });
+
+    socket.on('reset',(id)=>{
+        socket.to(roomId).emit('reset',roomId);
+    })
 
     socket.on('chat-message', (msg) => {
         socket.broadcast.emit('')
@@ -133,10 +95,21 @@ io.on('connection',(socket)=>{
         }
     })
 
-    socket.on('chessMove',(oldCords,newCords)=>{
-        console.log(oldCords,newCords)
+    socket.on('chessMove',(oldCords,newCords,p)=>{
         if(roomId){
-            socket.to(roomId).emit('opMove',oldCords,newCords);
+            socket.to(roomId).emit('opMove',oldCords,newCords,p);
+        }
+    })
+
+    socket.on('pawnPromotion',(place,img,ele)=>{
+        if(roomId){
+            socket.to(roomId).emit('PawnPromotion',place,img,ele);
+        }
+    })
+
+    socket.on('castling',(New,img,old,val)=>{
+        if(roomId){
+            socket.to(roomId).emit('Castling',New,img,old,val);
         }
     })
 })
@@ -151,6 +124,11 @@ app.get('/',(req,res)=>{
     const token = req.cookies.jwt;
     if(token) res.redirect('games')
     else res.render('index',{title: "JOJO"});
+})
+
+
+app.get('/test',(req,res)=>{
+    res.render('test');
 })
 
 app.get('/games' , requireAuth , (req,res) => { res.render('games')});

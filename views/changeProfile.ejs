@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOJO</title>
+    <%- include('links') %>
+    <style>
+      .login-container {
+          width: 350px;
+          margin: 130px auto;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .login-container h1{
+          text-align: center;
+          margin-bottom: 50px;
+      }
+
+
+      .input-group {
+          margin-bottom: 25px;
+      }
+
+      .input-group label {
+          display: block;
+          margin-bottom: 5px;
+          font-size: 25px;
+      }
+
+      .input-group input{
+          font-size: 18px;
+          font-weight: bold;
+          width: 100%;
+          padding: 10px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+      }
+
+      .sub{
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+
+      button{
+        width: auto;
+      }
+
+      a{
+          text-decoration: none;
+          color: #fff;
+      }
+
+    </style>
+    </head>
+
+
+<body>
+    <%- include("header") %>
+
+    <section class="section">
+      <div class="login-container">
+        <h1>Change Profile</h1>
+        <form id='form' action="/upload" method="post" enctype="multipart/form-data">
+          <div class=input-group>
+            <label for="imageFile">Choose Image:</label>
+            <input type="file" id="File" name="file">
+          </div>
+          <div class="sub">
+            <button type="submit">Upload</button>
+          </div>
+      </div>
+      </form>
+          
+    </section>
+
+
+    <%- include('footer') %>
+    
+</body>
+</html>

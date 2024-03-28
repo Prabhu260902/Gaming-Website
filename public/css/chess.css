@@ -34,6 +34,7 @@ hr{
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    /* flex-wrap: wrap-reverse; */
 }
 
 .box{
@@ -47,15 +48,21 @@ hr{
     background-color: rgb(87, 86, 86);
 }
 
+.full-board{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 #choice{
-    position: absolute;
     display: none;
-    margin: 0 auto;
+    margin: auto;
     margin-top: 20px;
-    width: 150px;
+    width: 250px;
     color: gold;
     text-align: center;
-    left: 46%;
+    align-items: center;
+    justify-content: center;
 }
 
 #reset{
@@ -91,4 +98,31 @@ hr{
   .hidden {
     display: none;
   }
-  
+
+#promotion-options{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.promotion-option{
+    margin-top: 0px;
+}
+
+#countdown {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0e30b9;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}

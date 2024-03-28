@@ -4,16 +4,19 @@
   justify-content: center;
   align-items: center;
   margin-right: 15px;
-  font-size: 20px;
+  font-size: 18px;
   flex-direction: column;
   position: relative
 }
 
+
+
 .profile_logo {
-  height: 80px;
-  width: 80px;
-  margin-top: 40px;
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
   cursor: pointer;
+  margin-top: 40px;
 }
 
 .dropdown {

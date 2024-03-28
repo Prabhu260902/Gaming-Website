@@ -11,15 +11,27 @@
 
     
     <div class="profile">
-        <img class="profile_logo" src="/static/images/profile_logo.png">
+        <div class="circle"><img class="profile_logo" src="static/images/icon.png"></div>
         <div class="dropdown">
             <a href="/profile">PROFILE</a>
-            <a href="/leaderBoard">LEADERBOARD</a>
+            <a href="/leaderBoard">LEADER_BOARD</a>
+            <a href="/changeProfile">PROFILE_PHOTO</a>
             <a href="/logout">SIGNOUT</a>
 
         </div>
     </div>
     
-
+    <script>
+        fetch('/getProfileLogo', {
+          method : 'post',
+        })
+        .then(resp => resp.json())
+        .then(resp => {
+            document.querySelector('.profile_logo').src = resp.signedUrl;
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    </script>
 
 </header>

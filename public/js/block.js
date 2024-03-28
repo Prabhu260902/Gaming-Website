@@ -188,7 +188,6 @@ function put(e,id,cords){
     }
     else{
         valid();
-        console.log("failed");
         return id;
     };
 }
@@ -214,11 +213,7 @@ function valid(){
             flag = (flag || a1 || a2 || a3);
 
         });
-        if(flag){
-            console.log("hiii")
-        }
         if(!flag){
-            console.log("failed!!!!!!!");
             update();
             setTimeout(() => {
                 window.location.reload();

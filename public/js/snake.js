@@ -64,7 +64,6 @@ function SetBoard(){
 
 
 function solve(){
-    console.log(speed);
     intervalId = setInterval(function(){
         blueDivRow = snakeBody[0][0];
         blueDivCol = snakeBody[0][1];
@@ -85,7 +84,6 @@ function solve(){
         if(blueDivCol + y >= 0 && blueDivCol + y < 48 && blueDivRow + x >= 0 && blueDivRow + x < 45){
             blueDiv.style.backgroundColor = '';
             if(check(snakeBody,blueDivRow+x,blueDivCol+y)){
-                console.log(blueDivRow+x,blueDivCol+y);
                 GameOver();
             }
             snakeBody[0] = [blueDivRow+x,blueDivCol+y];
@@ -106,7 +104,7 @@ function solve(){
 
         
 
-    },200);
+    },500);
 }
 
 document.addEventListener('keydown',function(event){

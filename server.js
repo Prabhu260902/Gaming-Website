@@ -127,8 +127,8 @@ app.get('/',(req,res)=>{
 })
 
 
-app.get('/test',(req,res)=>{
-    res.render('test');
+app.post('/test',(req,res)=>{
+    res.json('test');
 })
 
 app.get('/games' , requireAuth , (req,res) => { res.render('games')});

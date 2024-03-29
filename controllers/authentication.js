@@ -56,8 +56,8 @@ exports.Getregister = (req,res)=>{
 
 exports.Getlogin = (req,res)=>{
     const token = req.cookies.jwt;
-    if(token) res.redirect('games');
-    else res.render("login")
+    if(token) res.status(200).redirect('games');
+    else res.status(200).render("login")
 };
 
 
@@ -273,4 +273,19 @@ exports.Postupload = (req, res) => {
             })
         }
     })
+}
+
+
+exports.Getlogout = (req,res) => {
+    res.cookie('jwt','',{maxAge: 1});
+    res.redirect('/')
+}
+
+exports.Getchangeprofile = (req,res)=>{
+    res.render('changeProfile');
+}
+
+
+exports.GetleaderBoard = (req,res)=>{
+    res.render('leaderBoard');
 }

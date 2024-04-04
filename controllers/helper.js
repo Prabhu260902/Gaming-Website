@@ -1,5 +1,5 @@
 require('dotenv').config();
-const User = require("../models/user");
+const {User} = require("../models/user");
 const jwtt = require('jsonwebtoken');
 const Code = process.env.SecretCode;
 
@@ -27,25 +27,6 @@ function handleErrors(err){
     return error;  
 }
 
-function shiftCharacters(str) {
-    let shiftedString = "";
-    for (let i = 0; i < str.length; i++) {
-        let charCode = str.charCodeAt(i);
-        let shiftedCharCode = charCode + 3;
-        shiftedString += String.fromCharCode(shiftedCharCode);
-    }
-    return shiftedString;
-}
-
-function shiftCharactersDecrypt(str) {
-    let shiftedString = "";
-    for (let i = 0; i < str.length; i++) {
-        let charCode = str.charCodeAt(i);
-        let shiftedCharCode = charCode - 3;
-        shiftedString += String.fromCharCode(shiftedCharCode);
-    }
-    return shiftedString;
-}
 
 
 function getUser(req, callback){
@@ -60,4 +41,21 @@ function getUser(req, callback){
     }
 }
 
-module.exports = {handleErrors,shiftCharacters,shiftCharactersDecrypt,getUser};
+maxAge = 24 * 60 * 60;
+const CreateToken = (id)=>{
+    return jwtt.sign({ id },Code , {expiresIn: maxAge})
+}
+
+
+function generateRandomCode() {
+    const min = 100000;
+    const max = 999999;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+
+
+
+
+module.exports = {handleErrors,getUser,generateRandomCode,CreateToken};

@@ -139,6 +139,36 @@ button:hover {
     align-items: center;
 }
 
+.blur {
+    filter: blur(2px);
+  }
+
+.loader {
+    display: none;
+    position: absolute;;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    width: 75px;
+    height: 75px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
 
 
 @media (max-width: 400px){

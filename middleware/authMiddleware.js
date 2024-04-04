@@ -1,5 +1,5 @@
 const jwtt = require('jsonwebtoken');
-const User = require("../models/user")
+const {User} = require("../models/user")
 require('dotenv').config();
 
 const Code = process.env.SecretCode;
@@ -16,7 +16,7 @@ const requireAuth = (req,res,next) => {
     } else {
         res.redirect('/login');
     }
-}
+}   
 
 
 const checkUser = (req,res,next) => {

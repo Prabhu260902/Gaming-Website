@@ -12,12 +12,13 @@
 
 <body>
     <%- include('header') %>
-
+    <% user = JSON.parse(USER) %>
     <section class="section">
         <canvas id="myChart"></canvas>
         <div id="closeButton">&times;</div>
         
         <div class="welcome"> 
+            
             <h1>Hi, <%= user.username.toUpperCase() %> </h1>
             <h1>WELCOME To YOUR PROFILE</h1>
             <a href="/logout"><button class="Sign-in" type="submit">SIGNOUT</button></a>

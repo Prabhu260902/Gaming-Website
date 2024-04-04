@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
+require('dotenv').config()
 
 
 function checkPassword(str){
@@ -31,20 +32,6 @@ const userSchema = new mongoose.Schema({
 });
 
 
-
-// userSchema.post('save',function(doc,next){
-//     console.log('Data saved successfully',doc);
-//     next();
-// });
-
-
-userSchema.pre('save',async function(next){
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password,salt);
-    next();
-})
-
-
 userSchema.statics.login = async function(email,password){
     const user = await this.findOne({email});
     if(user){
@@ -60,4 +47,4 @@ userSchema.statics.login = async function(email,password){
 
 const User = mongoose.model('user',userSchema);
 
-module.exports = User;
+module.exports = {User,checkPassword};

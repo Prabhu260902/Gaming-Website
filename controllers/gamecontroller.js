@@ -4,10 +4,18 @@ const {getUser} = require('../controllers/helper');
 exports.Getsudoku = (req,res) => {
     res.status(200).render('sudoku');
 }
+
+exports.Getgames = (req,res) => { res.render('games')};
+
+exports.GetIndex = (req,res)=>{
+    const token = req.cookies.jwt;
+    if(token) res.redirect('games')
+    else res.render('index',{title: "JOJO"});
+}
+
 exports.Postsudoku = async (req,res) => {
     getUser(req, async (err, user) => {
         if (err) {
-            console.error(err);
             res.status(500).send({ error: 'Internal Server Error' }); // Handle errors
         } else {
             const { sudokuTime,level } = req.body;
@@ -20,10 +28,11 @@ exports.Postsudoku = async (req,res) => {
 exports.Getblock = (req,res) => {
     res.status(200).render('block');
 }
+
+
 exports.Postblock = async (req,res)=>{
     getUser(req, async (err, user) => {
         if (err) {
-            console.error(err);
             res.status(500).send({ error: 'Internal Server Error' }); // Handle errors
         } else {
             const { score } = req.body;
@@ -36,6 +45,8 @@ exports.Postblock = async (req,res)=>{
 exports.Gettictactoe = (req,res)=>{
     res.status(200).render('tic_tac_toe');
 }
+
+
 exports.Posttictactoe = async (req,res)=>{
     getUser(req, async (err, user) => {
         if (err) {

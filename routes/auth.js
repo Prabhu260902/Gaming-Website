@@ -15,16 +15,16 @@ router.get("/login",Getlogin);
 router.get("/logout", Getlogout)
 router.get('/leaderBoard',requireAuth, GetleaderBoard)
 router.get('/changeProfile',requireAuth, Getchangeprofile)
+router.get("/profile", requireAuth , Getprofile)
+router.get('/tempProfile',requireAuth , Gettempprofile);
+router.post('/getData',requireAuth,Postgetdata)
+
+
 
 router.post("/register",Postregister)
 router.post("/login",Postlogin)  
-
-
-router.get("/profile", requireAuth , Getprofile)
 router.post('/profile',requireAuth , Postprofile)
 
-router.post('/getData',requireAuth,Postgetdata)
-router.get('/tempProfile',requireAuth , Gettempprofile);
 router.post('/upload', upload.single('file'), Postupload)
 router.post('/getProfileLogo',requireAuth,PostgetProfileLogo)
 

@@ -1,12 +1,13 @@
 const { Router } = require("express");
 const router = Router();
-const User = require('../models/user')
+const {User} = require('../models/user')
 const Score = require('../models/score')
 require('dotenv').config();
-const {handleErrors,getUser} = require('./helper');
+const {handleErrors,getUser, generateRandomCode, CreateToken} = require('./helper');
 const fs = require('fs')
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt');
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     secure: false,
@@ -16,10 +17,11 @@ const transporter = nodemailer.createTransport({
     }
 })
 
+
+
 const {S3Client,GetObjectCommand, ListObjectVersionsCommand, DeleteObjectCommand} = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const {Upload} = require('@aws-sdk/lib-storage');
-
 
 
 const path = require('path');
@@ -34,18 +36,13 @@ const s3Client=new S3Client({
 
 
 
-function generateRandomCode() {
-    const min = 100000;
-    const max = 999999;
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+
 
 
 const Code = process.env.SecretCode;
 maxAge = 24 * 60 * 60;
-const CreateToken = (id)=>{
-    return jwt.sign({ id },Code , {expiresIn: maxAge})
-}
+
+
 
 
 exports.Getregister = (req,res)=>{
@@ -78,7 +75,6 @@ exports.Postregister = async (req,res)=>{
               ` 
             };
         
-        
             transporter.sendMail(mailOptions, function(error, info) {
                 if (error) {
                     if (error.code === 'EAUTH') {
@@ -91,9 +87,11 @@ exports.Postregister = async (req,res)=>{
                 }
             });
         }
-
+        
         else{
-            const user = await User.create({email,username,password});
+            const salt = await bcrypt.genSalt();
+            const hashedPassword = await bcrypt.hash(password,salt);
+            const user = await User.create({email,username,password : hashedPassword});
             
             let data = {
                 email,
@@ -104,16 +102,16 @@ exports.Postregister = async (req,res)=>{
                 'Chess': {},
                 'TotalScore': 0,
             }
+            
             const newUser = await Score.create(data);
-            newUser.save();
-
+            // newUser.save();
             const token = CreateToken(user._id);
+            
             res.cookie('jwt',token,{httpOnly: true, maxAge: maxAge*1000});
-
-
+            
             const imageName = `${email}`;
             const imagePath = path.join(__dirname,'..', 'public', 'images', 'icon.png');
-
+            
             fs.readFile(imagePath, (err, data) => {
                 if (err) {
                     return res.status(500).send({
@@ -121,23 +119,23 @@ exports.Postregister = async (req,res)=>{
                         error: 'Error reading static image file'
                     });
                 }
-
-                
-                new Upload({
-                    client: s3Client,
-                    params: {
-                        Bucket: 'prabhukondru',
-                        Key: imageName,
-                        Body: data,
-                        ContentType: 'image/jpeg'
+                else{
+                    new Upload({
+                        client: s3Client,
+                        params: {
+                            Bucket: 'prabhukondru',
+                            Key: imageName,
+                            Body: data,
+                            ContentType: 'image/jpeg'
+                        }
+                    }).done()
+                        .then(data => {
+                            res.status(201).json({user: user._id}); 
+                        })
+                        .catch(err => {
+                        });
                     }
-                }).done()
-                    .then(data => {
-                        res.status(201).json({user: user._id}); 
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    });
+                
             });   
         }        
     }
@@ -153,7 +151,7 @@ exports.Postlogin = async (req,res)=>{
     const { email, password } = req.body;
     try{
         const user = await User.login(email,password);
-        const token = CreateToken(user._id);
+        const token = CreateToken(user._id);        
         res.cookie('jwt',token,{httpOnly: true, maxAge: maxAge*1000});
         if(user){
             const mailOptions = {
@@ -175,9 +173,9 @@ exports.Postlogin = async (req,res)=>{
                     } else {
                       res.status(500).send('Failed to send email');
                     }
-                  } else {
+                } else {
                     res.status(201).json({user: user._id});
-                  }
+                }
             });
             
         }
@@ -195,7 +193,7 @@ exports.Getprofile = async (req,res)=>{
             res.status(500).send({ error: 'Internal Server Error' }); // Handle errors
         } else {
             const User = await Score.findOne({email:user.email});
-            res.render('profile', {data : JSON.stringify(User)})
+            res.render('profile', {data : JSON.stringify(User) , USER : JSON.stringify(user)})
         }
     });
 }
@@ -213,14 +211,14 @@ exports.Postprofile = async (req,res)=>{
 
 exports.Postgetdata = async (req,res)=>{
     const Data = await Score.find().sort({TotalScore: -1});
-    res.status(400).json(Data);
+    res.status(200).json(Data);
 }
 
 exports.Gettempprofile = async (req,res)=>{
     const email = req.query.email;
     const user = await Score.findOne({email});
     const name = await User.findOne({email});
-    res.render('tempProfile', {data : JSON.stringify(user),name : JSON.stringify(name)})
+    res.render('tempProfile', {data : JSON.stringify(user), name : JSON.stringify(name)})
 }
 
 

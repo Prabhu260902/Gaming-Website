@@ -13,6 +13,12 @@ form.addEventListener('submit',async (e)=>{
     const password = form.password.value;
 
     try{
+        document.querySelector(".loader").style.display = 'flex';
+        const wrapper = document.querySelector(".section");
+        const elementsToBlur = wrapper.querySelectorAll("*:not(.loader)");
+        elementsToBlur.forEach(element => {
+            element.classList.toggle("blur");
+        });
         const res = await fetch('/login',{
             method: 'POST',
             body: JSON.stringify({email,password}),
@@ -21,9 +27,20 @@ form.addEventListener('submit',async (e)=>{
 
         const data = await res.json();
         if(data.errors){
+            document.querySelector(".loader").style.display = 'none';
+            const wrapper = document.querySelector(".section");
+            const elementsToBlur = wrapper.querySelectorAll("*:not(.loader)");
+            elementsToBlur.forEach(element => {
+                element.classList.remove("blur");
+            });
             passwordError.textContent = data.errors.password;
             emailError.textContent = data.errors.email;
         }
+
+        
+        
+        
+        
 
         if(data.user){
             location.assign('/games');

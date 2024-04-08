@@ -1,3 +1,4 @@
+
 let snakeBody = []
 let redDivRow , redDivCol;
 let score = 0;
@@ -6,6 +7,7 @@ let x = 1 , y = 0;
 let speed = 500;
 let kk = 0;
 let intervalId;
+let pre_Score = 0;
 
 
 
@@ -13,7 +15,12 @@ function redDiv(){
     redDivRow = Math.floor(Math.random()*45);
     redDivCol = Math.floor(Math.random()*48);
     let c = redDivRow.toString() + '-' + redDivCol.toString();
-    document.getElementById(c).style.backgroundColor = 'red';
+    if(document.getElementById(c).style.backgroundColor != 'red' && document.getElementById(c).style.backgroundColor != 'blue'){
+        document.getElementById(c).style.backgroundColor = 'red'
+    }
+    else{
+        redDiv();
+    }
 }
 
 
@@ -22,7 +29,6 @@ function SetScore(){
     score++;
     let a = document.getElementById("score");
     a.innerText = score;
-    if(score == 5) speed = 50;
 }
 
 
@@ -54,11 +60,25 @@ function SetBoard(){
     }
     redDiv();
     snakeBody[0] = [4,4];
-
-    
-
-    
     solve();
+    
+    fetch('/profile', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(data => {
+        pre_Score = data['Snake'];
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    
 }
 
 
@@ -104,7 +124,39 @@ function solve(){
 
         
 
-    },500);
+    },100);
+}
+
+function showCelebrationPopup() {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.textContent = 'Congratulations! New High Score!';
+    popup.style.color = 'black'
+    document.body.appendChild(popup);
+    // Close the pop-up after 3 seconds
+    var duration = 15 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function() {
+    var timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+        return clearInterval(interval);
+    }
+
+    var particleCount = 50 * (timeLeft / duration);
+    // since particles fall down, start a bit higher than random
+    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }, 250);
+    setTimeout(() => {
+        popup.remove();
+    }, 5000);
 }
 
 document.addEventListener('keydown',function(event){
@@ -153,9 +205,12 @@ function GameOver(){
     update();
     clearInterval(intervalId);
     document.getElementById('message').style.display = 'block';
+    if(score > pre_Score){
+        showCelebrationPopup()
+    }
     setTimeout(()=>{
         window.location.reload();
-    },2000);
+    },6000);
 }
 
 function check(snakeBody,row,col){

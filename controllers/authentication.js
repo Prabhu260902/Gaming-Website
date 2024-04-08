@@ -241,34 +241,28 @@ exports.PostgetProfileLogo = async (req,res)=>{
 exports.Postupload = (req, res) => {
     getUser(req, async (err,user)=>{
         if (err) {
-            res.status(500).send({ error: 'Internal Server Error' }); // Handle errors
+            return res.status(500).send({ error: 'Internal Server Error' }); // Handle errors
         } else {
             if(!req.file || !req.file.buffer){
-                res.send({
-                    success:false,
-                    error:'Invalid file'
+                res.status(400).redirect('/changeProfile')
+            }
+            else{
+                new Upload({
+                    client:s3Client,
+                    params:{
+                        Bucket:'prabhukondru',
+                        Key:`${user.email}`,
+                        Body:req.file.buffer,
+                        ContentType:req.file.mimetype,
+                    }
+                }).done()
+                .then(data=>{
+                    res.redirect('/games');
+                })
+                .catch(err=>{
+                    res.status(500).send("Not uploaded")
                 })
             }
-        
-            
-            new Upload({
-                client:s3Client,
-                params:{
-                    Bucket:'prabhukondru',
-                    Key:`${user.email}`,
-                    Body:req.file.buffer,
-                    ContentType:req.file.mimetype,
-                }
-            }).done()
-            .then(data=>{
-                res.redirect('/games');
-            })
-            .catch(err=>{
-                res.send({
-                    success:false,
-                    ...err
-                })
-            })
         }
     })
 }

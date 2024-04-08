@@ -16,10 +16,29 @@ joinButton.addEventListener('click',function(e){
     room.style.display = 'none';
     joinButton.style.display = 'none';
     document.getElementById('reset').style.display = 'flex';
+    resetBoard();
+    CNT = 0;
+    array = [[0,0,0],[0,0,0],[0,0,0]];
+    kk = 0;
+    pre_move = -1;
+    flag = true;
+    firstStart = false;
   }
 })
 
-
+function resetBoard(){
+    for(let i = 0 ; i < 3 ; i++){
+        for(let j = 0 ; j < 3 ; j++){
+            let c = i.toString() + '-' + j.toString();
+            temp = document.getElementById(c);
+            img = temp.querySelector('img')
+            console.log(temp)
+            if(img){
+                temp.removeChild(img)
+            }
+        }
+    }
+}
 function SetBoard(){
     
     for(let i = 0 ; i < 3 ; i++){
@@ -59,6 +78,38 @@ socket.on('nextMove',(cords,cnt)=>{
     // valid();
 })
 
+function showCelebrationPopup() {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.textContent = 'Congratulations! You Won!';
+    popup.style.color = 'black'
+    document.body.appendChild(popup);
+    // Close the pop-up after 3 seconds
+    var duration = 15 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function() {
+    var timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+        return clearInterval(interval);
+    }
+
+    var particleCount = 50 * (timeLeft / duration);
+    // since particles fall down, start a bit higher than random
+    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }, 250);
+    setTimeout(() => {
+        popup.remove();
+    }, 5000);
+}
+
 function icon(){
     const temp = this.querySelector('img');
     if(pre_move != CNT && flag){
@@ -91,6 +142,9 @@ function icon(){
 
 
 async function update(win){
+    if(win == 1){
+        showCelebrationPopup();
+    }
     try{
         const res = await fetch('/tictactoe',{
             method: 'POST',
@@ -133,14 +187,17 @@ function valid(){
             }
         }
         a.style.display = 'flex';
+        setTimeout(()=>{
+            load()
+        },5000);
     }
     else if(CNT == 8){
         update(2);
         socket.emit('win',2);
         a.style.display = "block";
-        // setTimeout(()=>{
-        //     window.location.reload();
-        // },2000);
+        setTimeout(()=>{
+            load()
+        },5000);
     }
     
 }
@@ -160,6 +217,19 @@ socket.on('wins',(id)=>{
         update(2);
     }
     a.style.display = 'flex';
+    setTimeout(()=>{
+        load();
+    },5000)
+})
+
+socket.on('reset',(id)=>{
+    CNT = 0;
+    array = [[0,0,0],[0,0,0],[0,0,0]];
+    kk = 0;
+    pre_move = -1;
+    flag = true;
+    firstStart = false;
+    resetBoard();
 })
 
 

@@ -6,6 +6,7 @@ let hover = []
 let display = [9,9,9,9,9,9,9,9,9];
 let oldTime = 0, newTime = 0;
 let level;
+let dur = 0
 
 
 let GreenColor = ['0-0','0-1','0-2','0-6','0-7','0-8','1-0','1-1','1-2','1-6','1-7','1-8','2-0','2-1','2-2','2-6','2-7','2-8',
@@ -26,7 +27,7 @@ function SetButton(name,size){
 }
 
 function SetGame(){
-    SetButton('easy',45);
+    SetButton('easy',80);
     SetButton('medium',30);
     SetButton('hard',20);
     removeButton('start');
@@ -39,7 +40,7 @@ function removeButton(name){
 
 
 function SetBoard(count){
-    if(count == 45) level = 'easy';
+    if(count == 80) level = 'easy';
     if(count == 30) level = 'medium';
     if(count == 20) level = 'hard';
     cnt = count;
@@ -106,6 +107,24 @@ function SetBoard(count){
     }
 
     solve(array,0,count);
+    startCountdown();
+    document.getElementById('countdown').style.display = 'flex';
+    fetch('/profile', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(data => {
+        value = data['sudokuTime'][level];
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 
@@ -164,23 +183,54 @@ function load(){
     
 }
 
+function showCelebrationPopup() {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.textContent = 'Congratulations! New Best Time!';
+    popup.style.color = 'black'
+    document.body.appendChild(popup);
+    // Close the pop-up after 3 seconds
+    var duration = 15 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function() {
+    var timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+        return clearInterval(interval);
+    }
+
+    var particleCount = 50 * (timeLeft / duration);
+    // since particles fall down, start a bit higher than random
+    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }, 250);
+    setTimeout(() => {
+        popup.remove();
+    }, 5000);
+}
 
 
 async function update(){
-    newTime = new Date().getTime();
-    const k = ((newTime - oldTime)/60000).toFixed(2);
-
-
-    try{
-        const res = await fetch('/sudoku',{
-            method: 'POST',
-            body: JSON.stringify({sudokuTime:k,level}),
-            headers: {'Content-Type':'application/json'}
-        });
+    stopCountdown()
+    if(value > dur){
+        showCelebrationPopup()
+        try{
+            const res = await fetch('/sudoku',{
+                method: 'POST',
+                body: JSON.stringify({sudokuTime:dur,level}),
+                headers: {'Content-Type':'application/json'}
+            });
+        }
+        catch(err){
+            console.log(err)
+        } 
     }
-    catch(err){
-        console.log(err)
-    } 
 }
 
 function check(array,x,y,p){
@@ -253,4 +303,37 @@ function solve(array,x,count){
         solve(array,x+1,count);  
     }
     oldTime = new Date().getTime();
+    
 }
+
+
+const countdownElement = document.getElementById('countdown');
+
+let countdownInterval = null;
+
+function startCountdown() {
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000); 
+}
+
+function stopCountdown() {
+    clearInterval(countdownInterval);
+}
+
+function updateCountdown() {
+    const formattedTime = formatTime(dur);
+    countdownElement.textContent = formattedTime;
+    dur++;
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${padZero(minutes)}:${padZero(remainingSeconds)}`;
+}
+
+function padZero(num) {
+    return num.toString().padStart(2, '0');
+}
+
+

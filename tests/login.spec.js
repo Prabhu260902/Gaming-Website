@@ -345,14 +345,15 @@ describe('testing for post upload function',()=>{
     await authController.Postupload(req,res) 
     sinon.assert.calledWith(res.status,500);
     sinon.assert.calledWith(res.send,{ error: 'Internal Server Error' });
-    
+    sinon.restore()
   })
 
 
   it('should return error when req file is not present',async ()=>{
     const req = {}
     const res = {
-      send: sinon.stub().returnsThis()
+      status: sinon.stub().returnsThis(),
+      redirect: sinon.stub()
     }
     const user = {email:'test@123.com'}
     const getUserStub = sinon.stub().callsFake((req,callback)=>{
@@ -364,14 +365,16 @@ describe('testing for post upload function',()=>{
     })
 
     await authController.Postupload(req,res) 
-    sinon.assert.calledWith(res.send,{ success: false,error: 'Invalid file' });
-    
+    sinon.assert.calledWith(res.status,400);
+    sinon.assert.calledWith(res.redirect,'/changeProfile');
+    sinon.restore()
   })
 
   it('should return error when req file is not present',async ()=>{
     const req = { file:'test.txt' }
     const res = {
-      send: sinon.stub().returnsThis()
+      status: sinon.stub().returnsThis(),
+      redirect: sinon.stub()
     }
     const user = {email:'test@123.com'}
     const getUserStub = sinon.stub().callsFake((req,callback)=>{
@@ -383,12 +386,13 @@ describe('testing for post upload function',()=>{
     })
 
     await authController.Postupload(req,res) 
-    sinon.assert.calledWith(res.send,{ success: false,error: 'Invalid file' });
-    
+    sinon.assert.calledWith(res.status,400);
+    sinon.assert.calledWith(res.redirect,'/changeProfile');
+    sinon.restore()
   })
 
 
-  it('should upload image on s3 bucket amd redirect to games page',async ()=>{
+  it('should upload image on s3 bucket and redirect to games page',async ()=>{
     const req = { file : {buffer : 'test.txt'}}
     const res = {
       redirect: sinon.spy()
@@ -407,7 +411,31 @@ describe('testing for post upload function',()=>{
 
     await authController.Postupload(req,res) 
     sinon.assert.calledWith(res.redirect,'/games');
-    
+    sinon.restore()
+  })
+
+  it('should upload image on s3 bucket and redirect to games page',async ()=>{
+    const req = { file : {buffer : 'test.txt'}}
+    const res = {
+      status: sinon.stub().returnsThis(),
+      send: sinon.stub()
+    }
+    const err = "Not uploaded"
+    const user = {email:'test@123.com'}
+    const getUserStub = sinon.stub().callsFake((req,callback)=>{
+      callback(null,user);
+    })
+    const UploadStub = sinon.stub().returns({
+      done: sinon.stub().rejects(new Error(err))
+    });
+    const authController = proxyquire('../controllers/authentication',{
+      './helper' : {getUser : getUserStub},
+      '@aws-sdk/lib-storage' : {Upload : UploadStub}
+    })
+
+    await authController.Postupload(req,res) 
+    expect(res.status.calledWith(500)).to.be.false;
+    expect(res.send.calledWith("Not uploaded")).to.be.false;
   })
 })
 

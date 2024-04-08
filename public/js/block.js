@@ -7,8 +7,7 @@ let e1 = [['2--3'],['2--3','2--4'],['1--3','2--3'],['2--2','2--4','2--3'],['1--3
 let e2 = []
 let e3 = []
 let score = 0;
-
-
+let pre_Score = 0;
 
 let selectedElement = null;
 let offsetX = 0;
@@ -82,6 +81,22 @@ function SetBoard(){
         }
     }
     hint();
+    fetch('/profile', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+    })
+    .then(response => {
+        return response.json();
+    })
+    .then(data => {
+        pre_Score = data['BlockScore'];
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function add(c){
@@ -200,6 +215,39 @@ function set_el(){
     check();
 }
 
+function showCelebrationPopup() {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.textContent = 'Congratulations! New High Score!';
+    popup.style.color = 'black'
+    document.body.appendChild(popup);
+    // Close the pop-up after 3 seconds
+    var duration = 15 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function() {
+    var timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+        return clearInterval(interval);
+    }
+
+    var particleCount = 50 * (timeLeft / duration);
+    // since particles fall down, start a bit higher than random
+    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }, 250);
+    setTimeout(() => {
+        popup.remove();
+    }, 5000);
+}
+
+
 function valid(){
     let parent = document.getElementById('board');
     let child = parent.querySelectorAll("div:not(.elem)");
@@ -217,7 +265,7 @@ function valid(){
             update();
             setTimeout(() => {
                 window.location.reload();
-            }, 2000);
+            }, 6000);
         }
     }
 }
@@ -258,6 +306,10 @@ function check(){
 }
 
 async function update(){
+    pre_Score=0
+    if(pre_Score < score){
+        showCelebrationPopup();
+    }
     try{
         const res = await fetch('/block',{
             method: 'POST',

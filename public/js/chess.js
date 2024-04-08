@@ -5,6 +5,7 @@ let chance = 0;
 let checkingArray = [];
 let flag = false;
 let firstMove = 0;
+let duration = 10*60;
 let ksx = 0 , ksy = 4 , kgx = 7 ,kgy = 4;
 let array1 = [[6,5,4,3,2,4,5,6],
                 [1,1,1,1,1,1,1,1],
@@ -20,6 +21,37 @@ let emsi = -1 , emsj = -1 , emgi = -1 , emgj = -1;
 
 var socket = io();                
 
+function showCelebrationPopup() {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.textContent = 'You are the Winner';
+    popup.style.color = 'black'
+    document.body.appendChild(popup);
+    // Close the pop-up after 3 seconds
+    var duration = 15 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function() {
+    var timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+        return clearInterval(interval);
+    }
+
+    var particleCount = 50 * (timeLeft / duration);
+    // since particles fall down, start a bit higher than random
+    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }, 250);
+    setTimeout(() => {
+        popup.remove();
+    }, 5000);
+}
 //player's turn
 function Choice(){
     if(chance%2 != 0){
@@ -68,6 +100,9 @@ const build = ()=>{
 }
 
 async function update(win){
+    if(win == 1){
+        showCelebrationPopup();
+    }
     try{
         const res = await fetch('/chess',{
             method: 'POST',
@@ -86,6 +121,7 @@ function load(){
     while (div.firstChild) {
         div.removeChild(div.firstChild);
     }
+    
     array1 = build()
     prevDiv = null;
     new_id = []
@@ -94,6 +130,8 @@ function load(){
     checkingArray = [];
     flag = false;
     firstMove = 0;
+    duration = 10*60
+    stopCountdown()
     ksx = 0 , ksy = 4 , kgx = 7 ,kgy = 4;
     SKing = 0 , GKing = 0;
     sRrook = 0 , sLrook = 0 , gRrook = 0 , gLrook = 0;
@@ -110,7 +148,6 @@ function SetBoard(){
     ch.classList.add('hidden');
     ch.innerText = 'CHECK';
     document.querySelector(".full-board").appendChild(ch);
-    document.getElementById('reset').style.display = 'inline';
     document.getElementById('countdown').style.display = 'flex';
     document.getElementById("board").style.display = 'flex';
     document.getElementById("choice").style.display = 'flex';
@@ -277,7 +314,6 @@ if(room.value){
     document.getElementById('connected-msg').innerText = `Room id: ${room.value}`
     room.style.display = 'none';
     joinButton.style.display = 'none';
-    document.getElementById('reset').style.display = 'flex';
     load();
 }
 })
@@ -323,6 +359,9 @@ function checkMate(){
                     update((firstMove-1))
                 }
             }
+            setTimeout(()=>{
+                window.location.reload();
+            },5000)
         }
         checkingArray.length = 0;
         flag = false;
@@ -364,6 +403,9 @@ function checkMate(){
                     update((firstMove-1))
                 }
             }
+            setTimeout(()=>{
+                window.location.reload();
+            },5000)
         }
         checkingArray.length = 0;
         flag = false;
@@ -803,7 +845,6 @@ function pawnPromotion(i,j,val , oldId , newId){
 
 const countdownElement = document.getElementById('countdown');
 
-let duration = 10 * 60; 
 let countdownInterval = null;
 
 function startCountdown() {

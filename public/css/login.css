@@ -180,6 +180,7 @@ button:hover {
     #username, #password, #email{
         width: 90%;
     }
+
 }
 
 @media (max-height: 600px){
@@ -191,6 +192,21 @@ button:hover {
     }
 }
 
+
+@media (max-width: 1000px){
+    .animated{
+        display: none;
+    }
+}
+
+@media (max-height: 600px){
+    .animated{
+        height: 80%;
+    }
+    .gif{
+        height: 90%;
+    }
+}
 
 
 

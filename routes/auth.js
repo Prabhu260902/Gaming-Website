@@ -4,7 +4,7 @@ const { requireAuth } = require("../middleware/authMiddleware");
 require("dotenv").config();
 const { Getregister, Getlogin, Postregister, Postlogin, Getprofile,
      Postprofile, Postgetdata, Gettempprofile, PostgetProfileLogo, Postupload, 
-     Getlogout, Getchangeprofile, GetleaderBoard } = require("../controllers/authentication");
+     Getlogout, Getchangeprofile, GetleaderBoard, Gettest } = require("../controllers/authentication");
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -27,6 +27,9 @@ router.post('/profile',requireAuth , Postprofile)
 
 router.post('/upload', upload.single('file'), Postupload)
 router.post('/getProfileLogo',requireAuth,PostgetProfileLogo)
+
+
+router.get('/atlas-search',Gettest);
 
 
 module.exports = router; 

@@ -281,3 +281,7 @@ exports.Getchangeprofile = (req,res)=>{
 exports.GetleaderBoard = (req,res)=>{
     res.render('leaderBoard');
 }
+
+exports.Gettest = (req,res)=>{
+    res.render('test')
+}

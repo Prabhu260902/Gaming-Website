@@ -27,7 +27,7 @@ function SetButton(name,size){
 }
 
 function SetGame(){
-    SetButton('easy',80);
+    SetButton('easy',45);
     SetButton('medium',30);
     SetButton('hard',20);
     removeButton('start');
@@ -40,7 +40,7 @@ function removeButton(name){
 
 
 function SetBoard(count){
-    if(count == 80) level = 'easy';
+    if(count == 45) level = 'easy';
     if(count == 30) level = 'medium';
     if(count == 20) level = 'hard';
     cnt = count;

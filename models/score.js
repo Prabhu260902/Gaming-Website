@@ -144,3 +144,5 @@ scoreSchema.statics.updateSnake = async function(email,score){
 const score = mongoose.model('score',scoreSchema);
 
 module.exports = score;
+
+
